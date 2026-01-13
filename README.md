@@ -91,6 +91,17 @@ Long audits save progress automatically to `.ralph-report.md`:
 | `/ralph-ultra` | Every 50 iterations |
 | `/ralph-promax` | Every 100 iterations |
 
+**Report includes timestamps:**
+```
+Started:   2026-01-14 09:30:45
+Completed: 2026-01-14 10:15:22
+Duration:  44m 37s
+```
+
+**Previous reports are preserved:**
+- When a new audit starts, existing `.ralph-report.md` is renamed to `.ralph-report-{timestamp}.md`
+- Example: `.ralph-report-2026-01-13-1430.md`
+
 **If interrupted or context limit reached:**
 ```bash
 # Resume from last checkpoint

@@ -175,15 +175,28 @@ You are a senior security engineer conducting a thorough audit. Apply:
 
 ## Report File
 
-**Auto-save every 10 iterations to `.ralph-report.md`:**
+**On audit start:**
+1. If `.ralph-report.md` exists → rename to `.ralph-report-{YYYY-MM-DD-HHmm}.md`
+2. Create new `.ralph-report.md` with timestamp
+
+**Auto-save every 10 iterations:**
 
 ```markdown
 # Ralph Security Report
 
+## Audit Info
+| Field | Value |
+|-------|-------|
+| Started | {YYYY-MM-DD HH:mm:ss} |
+| Completed | {YYYY-MM-DD HH:mm:ss} |
+| Duration | {Xm Ys} |
+| Command | /ralph-security --iterations=100 |
+| Project | {auto-detected} |
+
 ## Checkpoint
 - Iteration: {N}/100
 - Phase: {P}/5
-- Status: IN_PROGRESS
+- Status: {IN_PROGRESS|COMPLETE}
 
 ## Findings
 

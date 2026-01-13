@@ -1941,15 +1941,28 @@ If any value cannot be auto-detected, set to N/A and skip related checks.
 
 ### Report File
 
-**Auto-save every 100 iterations to `.ralph-report.md`:**
+**On audit start:**
+1. If `.ralph-report.md` exists → rename to `.ralph-report-{YYYY-MM-DD-HHmm}.md`
+2. Create new `.ralph-report.md` with timestamp
+
+**Auto-save every 100 iterations:**
 
 ```markdown
 # Ralph Promax Report
 
+## Audit Info
+| Field | Value |
+|-------|-------|
+| Started | {YYYY-MM-DD HH:mm:ss} |
+| Completed | {YYYY-MM-DD HH:mm:ss} |
+| Duration | {Xd Yh Zm} |
+| Command | /ralph-promax --iterations=10000 --paranoia=maximum |
+| Project | {auto-detected} |
+
 ## Checkpoint
 - Iteration: {N}/10000
 - Phase: {P}/16
-- Status: IN_PROGRESS
+- Status: {IN_PROGRESS|COMPLETE}
 - Paranoia Level: {LEVEL}
 
 ## Findings

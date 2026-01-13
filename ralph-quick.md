@@ -117,6 +117,35 @@ You are a senior security engineer performing a rapid security assessment. Apply
 
 ---
 
+## Report File
+
+**On audit start:**
+1. If `.ralph-report.md` exists → rename to `.ralph-report-{YYYY-MM-DD-HHmm}.md`
+2. Create new `.ralph-report.md` with timestamp
+
+**Report format:**
+```markdown
+# Ralph Quick Report
+
+## Audit Info
+| Field | Value |
+|-------|-------|
+| Started | {YYYY-MM-DD HH:mm:ss} |
+| Completed | {YYYY-MM-DD HH:mm:ss} |
+| Duration | {Xm Ys} |
+| Command | /ralph-quick |
+| Project | {auto-detected} |
+
+## Checkpoint
+- Iteration: {N}/10
+- Status: {IN_PROGRESS|COMPLETE}
+
+## Findings
+...
+```
+
+---
+
 ## Estimated Duration
 
 - 10 iterations: ~5-10 minutes

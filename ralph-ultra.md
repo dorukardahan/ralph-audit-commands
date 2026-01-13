@@ -260,15 +260,28 @@ Before examining ANY code, endpoint, or config:
 
 ## Report File
 
-**Auto-save every 50 iterations to `.ralph-report.md`:**
+**On audit start:**
+1. If `.ralph-report.md` exists → rename to `.ralph-report-{YYYY-MM-DD-HHmm}.md`
+2. Create new `.ralph-report.md` with timestamp
+
+**Auto-save every 50 iterations:**
 
 ```markdown
 # Ralph Ultra Report
 
+## Audit Info
+| Field | Value |
+|-------|-------|
+| Started | {YYYY-MM-DD HH:mm:ss} |
+| Completed | {YYYY-MM-DD HH:mm:ss} |
+| Duration | {Xh Ym Zs} |
+| Command | /ralph-ultra --iterations=1000 |
+| Project | {auto-detected} |
+
 ## Checkpoint
 - Iteration: {N}/1000
 - Phase: {P}/8
-- Status: IN_PROGRESS
+- Status: {IN_PROGRESS|COMPLETE}
 
 ## Findings
 
