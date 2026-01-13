@@ -43,6 +43,27 @@ flowchart TB
 - Progress shown as **[X/N]**
 - Findings saved to **`.ralph-report.md`**
 
+## Example Output
+
+Here's what a typical iteration looks like:
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║ [SEC-42/100] Phase 2: OWASP Top 10 Analysis                  ║
+║ Check: SQL Injection in user input handlers                  ║
+╠══════════════════════════════════════════════════════════════╣
+║ Target: src/api/users.py:127                                 ║
+║ Result: FAIL                                                 ║
+║ Severity: HIGH                                               ║
+╠══════════════════════════════════════════════════════════════╣
+║ Finding: User input directly concatenated in SQL query       ║
+║          query = f"SELECT * FROM users WHERE id = {user_id}" ║
+║ Fix: Use parameterized queries or ORM                        ║
+╠══════════════════════════════════════════════════════════════╣
+║ Progress: [████████████████░░░░░░░░░░░░░░] 42%               ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
 ## Command Hierarchy
 
 ```mermaid

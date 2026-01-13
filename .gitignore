@@ -1,0 +1,21 @@
+# Environment
+.env
+.env.local
+.env.*
+
+# macOS
+.DS_Store
+
+# Audit reports (generated locally)
+.ralph-report.md
+.ralph-report-*.md
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Logs
+*.log
