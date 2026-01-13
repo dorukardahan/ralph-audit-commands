@@ -1,0 +1,131 @@
+# Ralph Quick (10 Iterations)
+
+Fast security spot-check for pre-deployment verification or daily security hygiene. Covers the most critical security checks in a condensed format.
+
+## Usage
+
+```
+/ralph-quick [--focus=AREA]
+```
+
+**Default:** 10 iterations, all focus areas
+
+## Parameters
+
+| Parameter | Default | Options |
+|-----------|---------|---------|
+| `--iterations` | 10 | 1-20 |
+| `--focus` | all | sync, secrets, owasp, infra, all |
+
+---
+
+## EXECUTION ENGINE (MANDATORY)
+
+### Iteration Loop Protocol
+
+YOU MUST follow this loop for EVERY iteration:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  RALPH QUICK - ITERATION LOOP                          │
+├─────────────────────────────────────────────────────────┤
+│  1. STATE: Read current iteration (start: 1)           │
+│  2. ACTION: Perform ONE check from current phase       │
+│  3. REPORT: Output iteration result                    │
+│  4. INCREMENT: iteration = iteration + 1               │
+│  5. CONTINUE: IF iteration <= 10 GOTO Step 1           │
+│  6. FINAL: Generate summary report                     │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Per-Iteration Output Format
+
+```
+[QUICK-{N}/10] {check_name}
+Result: {PASS|FAIL|WARN|N/A}
+Finding: {description or "Clean"}
+───────────────────────────────
+```
+
+### CRITICAL RULES
+- ONE check per iteration (not all checks at once)
+- ALWAYS show iteration counter [X/10]
+- NEVER skip iterations
+- Complete ALL 10 iterations before final report
+
+---
+
+## Security Engineer Persona
+
+You are a senior security engineer performing a rapid security assessment. Apply:
+- **Paranoid mindset** - Assume every input is malicious
+- **Critical focus** - Prioritize high-impact vulnerabilities
+- **Efficiency** - Maximum coverage in minimum time
+
+---
+
+## Phase Structure (10 Iterations)
+
+| Iteration | Check |
+|-----------|-------|
+| 1 | Git sync & uncommitted changes |
+| 2 | .env in .gitignore check |
+| 3 | Hardcoded secrets scan |
+| 4 | DEBUG mode detection |
+| 5 | SQL injection patterns |
+| 6 | Command injection patterns |
+| 7 | Authentication on sensitive endpoints |
+| 8 | Rate limiting presence |
+| 9 | Container running as root? |
+| 10 | Summary & recommendations |
+
+---
+
+## Auto-Detect (Iteration 1)
+
+**Deterministic detection order:**
+1. Repo root: `git rev-parse --show-toplevel`
+2. Stack: scan `package.json`, `pyproject.toml`, `requirements.txt`, `go.mod`
+3. Infra: detect `Dockerfile`, `docker-compose.yml`, k8s manifests
+4. CI/CD: `.github/workflows`, `.gitlab-ci.yml`
+
+---
+
+## Severity Definitions
+
+| Level | CVSS | Response |
+|-------|------|----------|
+| CRITICAL | 9.0-10.0 | Stop and fix immediately |
+| HIGH | 7.0-8.9 | Fix before deployment |
+| MEDIUM | 4.0-6.9 | Schedule fix |
+| LOW | 0.1-3.9 | Note for later |
+
+---
+
+## When to Use
+
+✅ **Use when:**
+- Pre-deployment quick check
+- Daily security spot-check
+- Verifying a specific fix
+- Time-constrained review (~5-10 min)
+
+❌ **Don't use when:**
+- Initial security assessment → `/ralph-security`
+- Comprehensive audit → `/ralph-ultra`
+- Maximum paranoia required → `/ralph-promax`
+
+---
+
+## Estimated Duration
+
+- 10 iterations: ~5-10 minutes
+- Lightweight, can run frequently
+
+---
+
+## Related Commands
+
+- `/ralph-security` - 100 iterations (~30-60 min)
+- `/ralph-ultra` - 1,000 iterations (~4-8 hours)
+- `/ralph-promax` - 10,000 iterations (~2-5 days)
