@@ -28,7 +28,7 @@ cp ralph-audit-commands/*.md ~/.claude/commands/
 Each command includes an **Execution Engine** that forces iterative behavior:
 
 ```mermaid
-flowchart LR
+flowchart TB
     A[STATE] --> B[PHASE]
     B --> C[ACTION]
     C --> D[REPORT]
@@ -47,16 +47,14 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph "Ralph Audit Levels"
-        Q["<b>/ralph-quick</b><br/>10 iterations<br/>~5-10 min"]
-        S["<b>/ralph-security</b><br/>100 iterations<br/>~30-60 min"]
-        U["<b>/ralph-ultra</b><br/>1,000 iterations<br/>~4-8 hours"]
-        P["<b>/ralph-promax</b><br/>10,000 iterations<br/>~2-5 days"]
-    end
+    Q["/ralph-quick<br/>10 iter • ~5-10 min"]
+    S["/ralph-security<br/>100 iter • ~30-60 min"]
+    U["/ralph-ultra<br/>1,000 iter • ~4-8 hours"]
+    P["/ralph-promax<br/>10,000 iter • ~2-5 days"]
 
-    Q -->|"Need more depth?"| S
-    S -->|"Still not enough?"| U
-    U -->|"Maximum paranoia?"| P
+    Q -->|more depth| S
+    S -->|deeper| U
+    U -->|max paranoia| P
 ```
 
 ## What It Checks
