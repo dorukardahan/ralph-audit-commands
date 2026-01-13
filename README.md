@@ -67,6 +67,61 @@ flowchart TB
 - **Infrastructure** - Ports, firewall, TLS/SSL
 - **CI/CD** - Pipeline security, secret management
 
+## Parameters
+
+Each command supports customization flags:
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `--iterations` | Override iteration count | `/ralph-security --iterations=50` |
+| `--focus` | Target specific area | `/ralph-ultra --focus=owasp` |
+| `--phase` | Start from specific phase | `/ralph-promax --phase=3` |
+| `--resume` | Continue from checkpoint | `/ralph-security --resume` |
+
+**Focus areas:** `recon`, `owasp`, `auth`, `secrets`, `infra`, `code`, `supply-chain`, `compliance`, `all`
+
+## Checkpoint & Resume
+
+Long audits save progress automatically to `.ralph-report.md`:
+
+| Command | Save Frequency |
+|---------|----------------|
+| `/ralph-quick` | End only |
+| `/ralph-security` | Every 10 iterations |
+| `/ralph-ultra` | Every 50 iterations |
+| `/ralph-promax` | Every 100 iterations |
+
+**If interrupted or context limit reached:**
+```bash
+# Resume from last checkpoint
+/ralph-ultra --resume
+
+# Or start specific phase
+/ralph-promax --phase=5
+```
+
+## Auto-Detection
+
+Commands automatically detect your environment on first iteration:
+
+- **Stack**: `package.json`, `requirements.txt`, `go.mod`, `pyproject.toml`
+- **Infrastructure**: `Dockerfile`, `docker-compose.yml`, Kubernetes manifests
+- **CI/CD**: GitHub Actions, GitLab CI, etc.
+
+No configuration needed — just run the command in your project directory.
+
+## When to Use Which
+
+| Scenario | Recommended |
+|----------|-------------|
+| Before deploying to production | `/ralph-quick` |
+| Weekly security check | `/ralph-security` |
+| New project onboarding | `/ralph-security` |
+| Before major release | `/ralph-ultra` |
+| Compliance audit preparation | `/ralph-ultra` |
+| Security incident investigation | `/ralph-promax` |
+| Maximum paranoia mode | `/ralph-promax` |
+
 ## Contributing
 
 - Found a bug? Open an issue
