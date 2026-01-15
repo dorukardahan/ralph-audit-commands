@@ -20,7 +20,7 @@ Copy the files to `~/.claude/commands/`:
 
 ```bash
 git clone https://github.com/dorukardahan/ralph-audit-commands.git
-cp ralph-audit-commands/*.md ~/.claude/commands/
+cp ralph-audit-commands/ralph-*.md ~/.claude/commands/
 ```
 
 ## How It Works
