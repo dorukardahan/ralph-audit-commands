@@ -1,3 +1,8 @@
+---
+name: ralph-quick
+description: "Fast security spot-check with 10 iterations for pre-deployment verification. Covers secrets scanning, OWASP basics, authentication, rate limiting, and container security. Use for quick pre-deployment checks or daily security spot-checks (5-10 minutes)."
+---
+
 # Ralph Quick (10 Iterations)
 
 Fast security spot-check for pre-deployment verification or daily security hygiene. Covers the most critical security checks in a condensed format.

@@ -1,3 +1,8 @@
+---
+name: ralph-security
+description: "Comprehensive security audit with 100 iterations covering reconnaissance, OWASP Top 10, authentication, secrets, infrastructure security, and code quality. Use for weekly security checks, new project onboarding, or before major releases (30-60 minutes)."
+---
+
 # Ralph Security (100 Iterations)
 
 Execute a comprehensive security audit across the target platform with balanced depth and duration.

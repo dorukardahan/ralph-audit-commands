@@ -1,3 +1,8 @@
+---
+name: ralph-ultra
+description: "Deep-dive security audit with 1,000 iterations covering comprehensive OWASP analysis, supply chain security, compliance checks, and business logic flaws. Use for compliance audit preparation, before major releases, or security incident investigation (4-8 hours)."
+---
+
 # Ralph Ultra (1,000 Iterations)
 
 Execute a comprehensive, deep-dive security audit across the entire target platform. This audit is designed to find vulnerabilities, misconfigurations, and security gaps with thorough coverage.

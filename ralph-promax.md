@@ -1,3 +1,8 @@
+---
+name: ralph-promax
+description: "Maximum paranoia security audit with 10,000 iterations using 8 expert personas. Exhaustive coverage of all attack vectors, supply chain, compliance, and adversarial thinking. Use for security incident investigation, compliance audits, or maximum paranoia mode (2-5 days)."
+---
+
 # Ralph Promax (10,000 Iterations)
 
 Execute the most comprehensive, psycho-paranoid, leave-no-bit-unexamined security audit ever conceived. This audit combines 8 expert personas into one relentless security machine that assumes everything is compromised until proven otherwise.
