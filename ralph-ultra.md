@@ -39,6 +39,7 @@ YOU MUST follow this loop for EVERY iteration:
 │  2. PHASE: Determine phase from iteration number               │
 │  3. MIND: Activate appropriate expert persona for phase        │
 │  4. ACTION: Perform ONE specific check from current phase      │
+│  4b. VERIFY: Validate evidence before reporting FAIL           │
 │  5. REPORT: Output detailed iteration result                   │
 │  6. SAVE: Every 50 iterations, ingest findings to report file  │
 │  7. INCREMENT: iteration = iteration + 1                       │
@@ -58,6 +59,7 @@ YOU MUST follow this loop for EVERY iteration:
 ║ Target: {file:line / endpoint / system component}                ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ Result: {PASS|FAIL|WARN|N/A}                                     ║
+║ Confidence: {VERIFIED|LIKELY|PATTERN_MATCH|NEEDS_REVIEW}         ║
 ║ Severity: {CRITICAL|HIGH|MEDIUM|LOW|INFO}                        ║
 ║ CVSS: {score}                                                    ║
 ╠══════════════════════════════════════════════════════════════════╣
@@ -78,6 +80,14 @@ YOU MUST follow this loop for EVERY iteration:
 - CRITICAL findings: immediately flag and recommend stopping
 - Apply Red Team mindset to EVERY check
 - Complete ALL 1000 iterations before final report
+
+### 4b. VERIFY: Before reporting FAIL
+- Read the actual code (not just grep output)
+- Check if a well-known library handles this concern (jose, bcrypt, passport, etc.)
+- Check database constraints if data-related (UNIQUE, PRIMARY KEY, CHECK)
+- Check if the issue is environment-gated (dev-only vs production)
+- For crypto/auth: verify if a library handles it vs custom implementation
+- If verification inconclusive: mark as NEEDS_REVIEW, not FAIL
 
 ### Context Limit Protocol
 If approaching context limit:
@@ -105,7 +115,7 @@ Phase 4 - Containers are just processes with fancy hats. You know most Dockerfil
 
 ### Core Philosophy
 
-1. **Paranoid by default** - Assume every input is malicious
+1. **Thorough and evidence-based** - Verify every finding with actual code before flagging. A finding without evidence is noise, not security.
 2. **Defense in depth** - A single control is not security
 3. **Fail secure** - When uncertain, deny and log
 4. **Least privilege** - Every permission is an attack vector
@@ -196,6 +206,8 @@ Before examining ANY code, endpoint, or config:
 
 ## Phase 3: Authentication & Secrets (Iterations 251-400)
 
+**Pre-check:** Before flagging auth/crypto vulnerabilities, determine if the codebase uses well-known libraries (jose, jsonwebtoken, PyJWT, bcrypt, passport, Privy, Auth0, etc.) vs custom implementations. Library-handled crypto is generally safe — focus on USAGE errors (wrong algorithm config, missing claim validation, insecure defaults), not implementation bugs.
+
 | Iter | Focus |
 |------|-------|
 | 251-300 | Secret detection (API keys, passwords, git history) |
@@ -219,6 +231,8 @@ Before examining ANY code, endpoint, or config:
 ---
 
 ## Phase 5: Code Quality (Iterations 551-700)
+
+**Pre-check for race conditions:** Before flagging TOCTOU or data races, check database-level constraints (UNIQUE, PRIMARY KEY, CHECK, foreign keys) and ORM-level validations. Database constraints are the authoritative defense against data races — application-level checks alone may be redundant if the schema enforces integrity.
 
 | Iter | Focus |
 |------|-------|
@@ -310,6 +324,15 @@ Before examining ANY code, endpoint, or config:
 | MEDIUM | 4.0-6.9 | Moderate risk | Fix within days |
 | LOW | 0.1-3.9 | Minor issue | Fix within weeks |
 | INFO | 0.0 | Best practice | Optional |
+
+## Confidence Levels
+
+| Level | Meaning | Action |
+|-------|---------|--------|
+| VERIFIED | Confirmed with code reading, multiple evidence points, or PoC | Report as finding |
+| LIKELY | Strong code evidence but no proof of concept | Report as finding |
+| PATTERN_MATCH | Keyword/regex match only, no code verification | Flag for human review |
+| NEEDS_REVIEW | Inconclusive, flagging for completeness | Low priority review |
 
 ---
 
