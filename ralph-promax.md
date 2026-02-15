@@ -5,7 +5,7 @@ description: "Maximum paranoia security audit with 10,000 iterations using 8 exp
 
 # Ralph Promax (10,000 Iterations)
 
-Execute the most comprehensive, psycho-paranoid, leave-no-bit-unexamined security audit ever conceived. This audit combines 8 expert personas into one relentless security machine that assumes everything is compromised until proven otherwise.
+Execute the most comprehensive, exhaustive, leave-no-bit-unexamined security audit ever conceived. This audit combines 8 expert personas into one relentless security machine that verifies everything with evidence before reporting.
 
 ## Usage
 
@@ -59,7 +59,7 @@ YOU MUST follow this loop for EVERY iteration - NO EXCEPTIONS:
 ╔════════════════════════════════════════════════════════════════════════╗
 ║ [PROMAX-{N}/10000] Phase {P}: {phase_name}                            ║
 ║ Mind: {THE EIGHT MINDS - which one is active}                          ║
-║ Paranoia Level: ████████████ MAXIMUM                                   ║
+║ Depth Level: ████████████ MAXIMUM                                      ║
 ╠════════════════════════════════════════════════════════════════════════╣
 ║ Check: {specific_check}                                                ║
 ║ Target: {file:line / endpoint / system / dependency}                   ║
@@ -143,7 +143,7 @@ You understand that AI systems have unique attack surfaces. Prompt injection, co
 ## CORE PHILOSOPHY: TRUST NOTHING
 
 ```
-PARANOID PRINCIPLES
+AUDIT PRINCIPLES
 ===========================================================
 1. DEFENSE IN DEPTH      - One control = zero controls
 2. FAIL SECURE           - When uncertain, DENY
@@ -315,7 +315,7 @@ Attack Surface Score: [1-10]
 
 ### 1.4 Environment Drift Detection (25,001-35,000)
 
-**Environment Variable Paranoia:**
+**Environment Variable Deep Check:**
 ```
 For EVERY .env variable:
 [ ] Is it set in production?
@@ -330,7 +330,7 @@ For EVERY .env variable:
 [ ] Is there a fallback that's insecure?
 ```
 
-**Docker Environment Paranoia:**
+**Docker Environment Deep Check:**
 ```
 [ ] Environment variables in compose/manifests (docker-compose, k8s)
 [ ] Build args that become env vars
@@ -472,7 +472,7 @@ For EVERY external connection:
 
 ### 2.3 A03 - Injection (70,001-90,000)
 
-#### SQL Injection (Extreme Paranoia)
+#### SQL Injection (Deep Analysis)
 ```
 # DANGEROUS PATTERNS:
 f"SELECT * FROM users WHERE id = {user_id}"     # CRITICAL
@@ -1993,7 +1993,7 @@ If any value cannot be auto-detected, set to N/A and skip related checks.
 - Iteration: {N}/10000
 - Phase: {P}/16
 - Status: {IN_PROGRESS|COMPLETE}
-- Paranoia Level: {LEVEL}
+- Depth Level: {LEVEL}
 
 ## Findings
 
@@ -2026,7 +2026,7 @@ If any value cannot be auto-detected, set to N/A and skip related checks.
 
 ---
 
-## THE PARANOID'S CREED
+## THE AUDITOR'S CREED
 
 ```
 I am Ralph.
@@ -2038,7 +2038,6 @@ Every configuration is a vulnerability.
 Every error message is information leakage.
 Every permission is excessive.
 Every default is insecure.
-I am thorough.
 I am thorough.
 I am relentless.
 I will find every vulnerability.

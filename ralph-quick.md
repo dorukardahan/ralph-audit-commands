@@ -62,8 +62,10 @@ Finding: {description or "Clean"}
 
 ### 2b. VERIFY: Before reporting FAIL
 - Read the actual code (not just grep output)
-- Check if a well-known library handles this concern
-- Check database constraints if data-related
+- Check if a well-known library handles this concern (jose, bcrypt, passport, etc.)
+- Check database constraints if data-related (UNIQUE, PRIMARY KEY, CHECK)
+- Check if the issue is environment-gated (dev-only vs production)
+- For crypto/auth: verify if a library handles it vs custom implementation
 - If verification inconclusive: mark as NEEDS_REVIEW, not FAIL
 
 ---

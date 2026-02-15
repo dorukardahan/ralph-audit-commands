@@ -101,7 +101,7 @@ Each command supports customization flags:
 
 **Focus areas:** `recon`, `owasp`, `auth`, `secrets`, `infra`, `code`, `supply-chain`, `compliance`, `all`
 
-> **Note:** Parameters are interpreted by the AI agent as instructions, not parsed as formal CLI arguments. Behavior may vary between models and sessions.
+> **Note:** Parameters are interpreted by the AI agent as instructions, not parsed as formal CLI arguments. Commands are designed to follow these flags, but exact behavior may vary by model and session context.
 
 ## Checkpoint & Resume
 
