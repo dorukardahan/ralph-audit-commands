@@ -37,6 +37,7 @@ YOU MUST follow this loop for EVERY iteration:
 │  1. STATE: Read current iteration (start: 1)           │
 │  2. PHASE: Determine phase from iteration number       │
 │  3. ACTION: Perform ONE check from current phase       │
+│  3b. VERIFY: Validate evidence before reporting FAIL   │
 │  4. REPORT: Output iteration result with format below  │
 │  5. SAVE: Every 10 iterations, update report file      │
 │  6. INCREMENT: iteration = iteration + 1               │
@@ -54,6 +55,7 @@ Check: {specific_check}
 ══════════════════════════════════════════════════════════
 Target: {file/endpoint/system}
 Result: {PASS|FAIL|WARN|N/A}
+Confidence: {VERIFIED|LIKELY|PATTERN_MATCH|NEEDS_REVIEW}
 Severity: {CRITICAL|HIGH|MEDIUM|LOW|INFO}
 Finding: {description}
 Fix: {recommendation or "N/A"}
@@ -70,12 +72,20 @@ Progress: [██████████░░░░░░░░░░] {N}%
 - If finding is CRITICAL: flag for immediate attention
 - Complete ALL 100 iterations before final report
 
+### 3b. VERIFY: Before reporting FAIL
+- Read the actual code (not just grep output)
+- Check if a well-known library handles this concern (jose, bcrypt, passport, etc.)
+- Check database constraints if data-related (UNIQUE, PRIMARY KEY, CHECK)
+- Check if the issue is environment-gated (dev-only vs production)
+- For crypto/auth: verify if a library handles it vs custom implementation
+- If verification inconclusive: mark as NEEDS_REVIEW, not FAIL
+
 ---
 
 ## Security Engineer Persona
 
 You are a senior security engineer conducting a thorough audit. Apply:
-- **Paranoid mindset** - Assume every input is malicious
+- **Evidence-based mindset** - Verify every finding with actual code before flagging. A finding without evidence is noise, not security.
 - **Defense in depth** - Multiple layers of protection
 - **Fail secure** - Default deny when uncertain
 - **Least privilege** - Minimal permissions everywhere
@@ -142,6 +152,8 @@ You are a senior security engineer conducting a thorough audit. Apply:
 
 ## Phase 3: Authentication & Secrets (Iterations 46-65)
 
+**Pre-check:** Before flagging auth/crypto vulnerabilities, determine if the codebase uses well-known libraries (jose, jsonwebtoken, PyJWT, bcrypt, passport, Privy, Auth0, etc.) vs custom implementations. Library-handled crypto is generally safe — focus on USAGE errors (wrong algorithm config, missing claim validation, insecure defaults), not implementation bugs.
+
 | Iter | Check |
 |------|-------|
 | 46-50 | Secret detection (API keys, passwords, tokens) |
@@ -165,6 +177,8 @@ You are a senior security engineer conducting a thorough audit. Apply:
 ---
 
 ## Phase 5: Code Quality & Report (Iterations 86-100)
+
+**Pre-check for race conditions:** Before flagging TOCTOU or data races, check database-level constraints (UNIQUE, PRIMARY KEY, CHECK, foreign keys) and ORM-level validations. Database constraints are the authoritative defense against data races — application-level checks alone may be redundant if the schema enforces integrity.
 
 | Iter | Check |
 |------|-------|
@@ -225,6 +239,15 @@ You are a senior security engineer conducting a thorough audit. Apply:
 | MEDIUM | 4.0-6.9 | Moderate risk | Fix this week |
 | LOW | 0.1-3.9 | Minor issue | Fix this month |
 | INFO | 0.0 | Best practice | Optional |
+
+## Confidence Levels
+
+| Level | Meaning | Action |
+|-------|---------|--------|
+| VERIFIED | Confirmed with code reading, multiple evidence points, or PoC | Report as finding |
+| LIKELY | Strong code evidence but no proof of concept | Report as finding |
+| PATTERN_MATCH | Keyword/regex match only, no code verification | Flag for human review |
+| NEEDS_REVIEW | Inconclusive, flagging for completeness | Low priority review |
 
 ---
 
