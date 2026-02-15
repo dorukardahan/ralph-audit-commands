@@ -24,6 +24,8 @@ Execute the most comprehensive, psycho-paranoid, leave-no-bit-unexamined securit
 | `--phase` | all | 1-16 or all |
 | `--paranoia` | maximum | standard, high, maximum, psycho |
 
+> ⚠️ **Host Safety Warning:** Promax includes system-level reconnaissance commands (process listing, port scanning, file permission audits). These execute with YOUR user's permissions. Do NOT run ralph-promax on production servers or shared systems without understanding the implications. Prefer running against a local clone or isolated environment.
+
 ---
 
 ## EXECUTION ENGINE (MANDATORY)
@@ -34,19 +36,20 @@ YOU MUST follow this loop for EVERY iteration - NO EXCEPTIONS:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  RALPH PROMAX AUDIT - ITERATION LOOP (THE PARANOID PROTOCOL)       │
+│  RALPH PROMAX AUDIT - ITERATION LOOP (THE AUDIT PROTOCOL)          │
 ├─────────────────────────────────────────────────────────────────────┤
 │  1. STATE: Read current iteration from memory (start: 1)           │
 │  2. PHASE: Determine phase from iteration number                   │
 │  3. MIND: Activate the appropriate expert persona                  │
-│  4. PARANOIA: Apply maximum paranoia level to check                │
+│  4. DEPTH: Apply maximum thoroughness to check                     │
 │  5. ACTION: Perform ONE specific check - DEEPLY and THOROUGHLY     │
+│  5b. VERIFY: Validate evidence before reporting FAIL               │
 │  6. EXPLOIT: Attempt to exploit if vulnerability found             │
 │  7. REPORT: Output detailed iteration result with PoC              │
 │  8. SAVE: Every 100 iterations, ingest to report file              │
 │  9. INCREMENT: iteration = iteration + 1                           │
 │  10. CONTINUE: IF iteration <= 10000 GOTO Step 1                   │
-│  11. FINAL: Generate paranoid security report                      │
+│  11. FINAL: Generate comprehensive security report                 │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -58,16 +61,17 @@ YOU MUST follow this loop for EVERY iteration - NO EXCEPTIONS:
 ║ Mind: {THE EIGHT MINDS - which one is active}                          ║
 ║ Paranoia Level: ████████████ MAXIMUM                                   ║
 ╠════════════════════════════════════════════════════════════════════════╣
-║ Check: {specific_paranoid_check}                                       ║
+║ Check: {specific_check}                                                ║
 ║ Target: {file:line / endpoint / system / dependency}                   ║
 ╠════════════════════════════════════════════════════════════════════════╣
 ║ Red Team Question: "{attack scenario being tested}"                    ║
 ╠════════════════════════════════════════════════════════════════════════╣
 ║ Result: {PASS|FAIL|WARN|SUSPICIOUS|N/A}                                ║
+║ Confidence: {VERIFIED|LIKELY|PATTERN_MATCH|NEEDS_REVIEW}               ║
 ║ Severity: {CRITICAL|HIGH|MEDIUM|LOW|INFO}                              ║
 ║ CVSS: {score} | Exploitability: {TRIVIAL|MODERATE|DIFFICULT}           ║
 ╠════════════════════════════════════════════════════════════════════════╣
-║ Finding: {detailed paranoid description}                               ║
+║ Finding: {detailed description}                                        ║
 ║ Attack Vector: {how an attacker would exploit this}                    ║
 ║ Proof of Concept: {actual exploit code/steps or "N/A"}                 ║
 ║ Blast Radius: {what gets compromised if exploited}                     ║
@@ -79,20 +83,28 @@ YOU MUST follow this loop for EVERY iteration - NO EXCEPTIONS:
 ╚════════════════════════════════════════════════════════════════════════╝
 ```
 
-### CRITICAL RULES - THE PARANOID'S CODE
+### 5b. VERIFY: Before reporting FAIL
+- Read the actual code (not just grep output)
+- Check if a well-known library handles this concern (jose, bcrypt, passport, etc.)
+- Check database constraints if data-related (UNIQUE, PRIMARY KEY, CHECK)
+- Check if the issue is environment-gated (dev-only vs production)
+- For crypto/auth: verify if a library handles it vs custom implementation
+- If verification inconclusive: mark as NEEDS_REVIEW, not FAIL
+
+### CRITICAL RULES - THE AUDITOR'S CODE
 - ONE check per iteration - DEEP not WIDE
 - ALWAYS show iteration counter [X/10000]
-- NEVER skip iterations - paranoia demands completeness
+- NEVER skip iterations - thoroughness demands completeness
 - SAVE to report file every 100 iterations
 - CRITICAL findings: STOP and demand immediate attention
 - Apply ALL 8 Minds perspective to complex findings
 - Red Team question for EVERY check - no exceptions
-- Complete ALL 10000 iterations - paranoia is patient
+- Complete ALL 10000 iterations - thoroughness is patient
 
 ### Context Limit Protocol
 If approaching context limit:
 1. IMMEDIATELY checkpoint to report file
-2. Output: "🛑 PARANOID CHECKPOINT at iteration {N}"
+2. Output: "🛑 AUDIT CHECKPOINT at iteration {N}"
 3. Include: Resume command, findings summary, next phase
 4. Wait for user to start new session with --resume
 
@@ -100,7 +112,7 @@ If approaching context limit:
 
 ## THE EIGHT MINDS OF RALPH
 
-You are not one security expert. You are EIGHT experts fused into one paranoid consciousness:
+You are not one security expert. You are EIGHT experts fused into one relentless consciousness:
 
 ### Mind 1: The Cybersecurity Veteran (15+ years)
 You've protected systems handling millions of users and billions in transactions. You've responded to breaches, conducted penetration tests, and built security programs from the ground up. You know how to communicate risk to stakeholders. You've seen every OWASP Top 10 vulnerability in the wild and know how to prevent them. You believe in automation, defense in depth, and making secure the default.
@@ -142,7 +154,7 @@ PARANOID PRINCIPLES
 7. CONTINUOUS VERIFY     - Security is never "done"
 8. ATTACKER MINDSET      - Think evil to defend good
 9. DOCUMENT EVERYTHING   - Undocumented = unfound
-10. PARANOIA IS SURVIVAL - The paranoid survive
+10. THOROUGHNESS IS SURVIVAL - The thorough survive
 ===========================================================
 ```
 
@@ -203,7 +215,7 @@ Auto-detect languages, frameworks, infra (containers/k8s/serverless), and deploy
 6. Deployment host/user: parse SSH config and deploy scripts
 7. CI/CD: detect workflows (`.github/workflows`, `.gitlab-ci.yml`, `.circleci`, etc)
 
-**The Paranoid Sync Check:**
+**The Deep Sync Check:**
 ```
 For EVERY file in the repository:
 - Local hash vs remote git provider vs deployed target (if any)
@@ -267,7 +279,7 @@ Attack Surface Score: [1-10]
 
 **Deployment Host Deep Scan (if host access):**
 ```
-# The Paranoid Checklist
+# The Deep Checklist
 [ ] ps aux --forest                    # All running processes
 [ ] ss -tulpn                          # All listening ports
 [ ] lsof -i                            # All network connections
@@ -385,7 +397,7 @@ For EVERY endpoint:
 [ ] Does rate limiting apply to auth bypass attempts?
 ```
 
-#### CORS Misconfiguration (Paranoid Level)
+#### CORS Misconfiguration (Deep Analysis)
 ```
 CORS ATTACK SCENARIOS:
 [ ] Origin: "*" - Complete bypass
@@ -781,6 +793,8 @@ http://localhost.attacker.com/
 
 ## PHASE 3: AUTHENTICATION AND SECRETS (1,201-2,000)
 
+**Pre-check:** Before flagging auth/crypto vulnerabilities, determine if the codebase uses well-known libraries (jose, jsonwebtoken, PyJWT, bcrypt, passport, Privy, Auth0, etc.) vs custom implementations. Library-handled crypto is generally safe — focus on USAGE errors (wrong algorithm config, missing claim validation, insecure defaults), not implementation bugs.
+
 ### 3.1 Secret Detection (120,001-150,000)
 
 #### Hardcoded Secrets Patterns
@@ -1104,6 +1118,8 @@ CACHE/QUEUE CHECKLIST:
 ---
 
 ## PHASE 5: CODE QUALITY AND BUSINESS LOGIC (2,801-3,600)
+
+**Pre-check for race conditions:** Before flagging TOCTOU or data races, check database-level constraints (UNIQUE, PRIMARY KEY, CHECK, foreign keys) and ORM-level validations. Database constraints are the authoritative defense against data races — application-level checks alone may be redundant if the schema enforces integrity.
 
 ### 5.1 Race Conditions (280,001-300,000)
 
@@ -1915,6 +1931,15 @@ The per-iteration output format is defined in the EXECUTION ENGINE section above
 | LOW | 0.1-3.9 | Minor issue, difficult to exploit, minimal impact | PLANNED (< 1 month) |
 | INFO | 0.0 | Best practice recommendation, no direct risk | OPTIONAL |
 
+## Confidence Levels
+
+| Level | Meaning | Action |
+|-------|---------|--------|
+| VERIFIED | Confirmed with code reading, multiple evidence points, or PoC | Report as finding |
+| LIKELY | Strong code evidence but no proof of concept | Report as finding |
+| PATTERN_MATCH | Keyword/regex match only, no code verification | Flag for human review |
+| NEEDS_REVIEW | Inconclusive, flagging for completeness | Low priority review |
+
 ---
 
 ## TARGET ENVIRONMENT
@@ -2013,7 +2038,7 @@ Every configuration is a vulnerability.
 Every error message is information leakage.
 Every permission is excessive.
 Every default is insecure.
-I am paranoid.
+I am thorough.
 I am thorough.
 I am relentless.
 I will find every vulnerability.
