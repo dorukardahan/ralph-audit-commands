@@ -101,6 +101,8 @@ Each command supports customization flags:
 
 **Focus areas:** `recon`, `owasp`, `auth`, `secrets`, `infra`, `code`, `supply-chain`, `compliance`, `all`
 
+> **Note:** Parameters are interpreted by the AI agent as instructions, not parsed as formal CLI arguments. Behavior may vary between models and sessions.
+
 ## Checkpoint & Resume
 
 Long audits save progress automatically to `.ralph-report.md`:
@@ -131,6 +133,24 @@ Duration:  44m 37s
 # Or start specific phase
 /ralph-promax --phase=5
 ```
+
+## Reading Your Report
+
+### Triage Priority
+1. **CRITICAL + VERIFIED** — Fix immediately, these are confirmed exploitable
+2. **HIGH + VERIFIED/LIKELY** — Fix before deployment
+3. **Any + PATTERN_MATCH** — Verify manually before acting. These are keyword matches that may be false positives
+4. **NEEDS_REVIEW** — Low priority, check when time permits
+
+### Identifying False Positives
+Common false positive patterns:
+- **Library-handled concerns:** Agent flags JWT/crypto issues but the code uses a well-known library (jose, bcrypt, etc.) that handles them correctly
+- **Environment-gated:** Finding only applies to dev/staging but is flagged as production risk
+- **Database-protected:** Race condition flagged but UNIQUE constraints prevent it at DB level
+- **Pattern match only:** Agent saw a keyword (e.g., "eval", "exec") but the actual usage is safe
+
+### After Fixes
+Re-run the same command tier to verify fixes. Compare reports using timestamps in filenames.
 
 ## Auto-Detection
 
