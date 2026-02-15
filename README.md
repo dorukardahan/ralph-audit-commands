@@ -3,12 +3,12 @@
 > **Disclaimer:** I made these for my own use. Sharing in case others find them useful.
 > There might be bugs. Feel free to open issues or fork and customize.
 
-Iterative security audit commands for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Iterative security audit skills for AI coding agents. Works with **Claude Code**, **OpenClaw**, and any **[AgentSkills](https://agentskills.io)-compatible** platform.
 
-## Commands
+## Skills
 
-| Command | Iterations | Duration | Use Case |
-|---------|------------|----------|----------|
+| Skill | Iterations | Duration | Use Case |
+|-------|------------|----------|----------|
 | `/ralph-quick` | 10 | ~5-10 min | Quick pre-deploy check |
 | `/ralph-security` | 100 | ~30-60 min | Standard audit |
 | `/ralph-ultra` | 1,000 | ~4-8 hours | Deep dive |
@@ -16,131 +16,165 @@ Iterative security audit commands for [Claude Code](https://docs.anthropic.com/e
 
 ## Installation
 
-Copy the files to `~/.claude/commands/`:
+### Claude Code (Skills)
 
 ```bash
 git clone https://github.com/dorukardahan/ralph-audit-commands.git
-cp ralph-audit-commands/ralph-*.md ~/.claude/commands/
+cp -r ralph-audit-commands/ralph-* ~/.claude/skills/
+```
+
+Or place them in your project's `.claude/skills/` directory.
+
+### Claude Code (Legacy Commands)
+
+If you prefer the old flat-file format, copy from `archive/`:
+
+```bash
+cp ralph-audit-commands/archive/ralph-*.md ~/.claude/commands/
+```
+
+### OpenClaw
+
+```bash
+git clone https://github.com/dorukardahan/ralph-audit-commands.git
+cp -r ralph-audit-commands/ralph-* ~/.openclaw/skills/
+# Or into your workspace: <workspace>/skills/
+```
+
+Skills are picked up on the next session.
+
+### ClawHub (coming soon)
+
+```bash
+clawhub install ralph-quick
+clawhub install ralph-security
+clawhub install ralph-ultra
+clawhub install ralph-promax
 ```
 
 ## How It Works
 
-Each command includes an **Execution Engine** that forces iterative behavior:
+Each skill includes an **Execution Engine** that forces iterative behavior:
 
-```mermaid
-flowchart TB
-    A[STATE] --> B[PHASE]
-    B --> C[ACTION]
-    C --> D[REPORT]
-    D --> E[SAVE]
-    E --> F{iter ≤ N?}
-    F -->|Yes| A
-    F -->|No| G[FINAL]
+```
+STATE → PHASE → ACTION → VERIFY → REPORT → SAVE → INCREMENT → CONTINUE
 ```
 
 **Key principles:**
 - **One check per iteration** (not all at once)
-- Progress shown as **[X/N]**
-- Findings saved to **`.ralph-report.md`**
+- **Evidence-based verification** before reporting FAIL
+- Progress shown as `[X/N]`
+- Findings saved to `.ralph-report.md`
+- Checkpoint & resume for long audits
+
+## Skill Structure
+
+Each skill follows the [AgentSkills](https://agentskills.io) open standard:
+
+```
+ralph-security/
+├── SKILL.md              # Main instructions (required)
+└── references/           # Loaded on-demand (progressive disclosure)
+    └── severity-guide.md # Triage, confidence, false positive guide
+```
+
+Larger skills (ultra, promax) include additional reference files:
+
+```
+ralph-promax/
+├── SKILL.md
+└── references/
+    ├── severity-guide.md   # Triage & confidence
+    ├── personas.md         # 8 expert personas
+    ├── attack-patterns.md  # OWASP payloads & checklists
+    └── phase-details.md    # Full 16-phase breakdown
+```
+
+This uses **progressive disclosure** — SKILL.md stays focused on core instructions, detailed references are loaded only when needed by the agent.
 
 ## Example Output
 
-Here's what a typical iteration looks like:
-
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║ [SEC-42/100] Phase 2: OWASP Top 10 Analysis                  ║
-║ Check: SQL Injection in user input handlers                  ║
+║ [SEC-42/100] Phase 2: OWASP Top 10 Analysis                ║
+║ Check: SQL Injection in user input handlers                 ║
 ╠══════════════════════════════════════════════════════════════╣
-║ Target: src/api/users.py:127                                 ║
-║ Result: FAIL                                                 ║
-║ Severity: HIGH                                               ║
+║ Target: src/api/users.py:127                                ║
+║ Result: FAIL                                                ║
+║ Confidence: VERIFIED                                        ║
+║ Severity: HIGH                                              ║
 ╠══════════════════════════════════════════════════════════════╣
-║ Finding: User input directly concatenated in SQL query       ║
-║          query = f"SELECT * FROM users WHERE id = {user_id}" ║
-║ Fix: Use parameterized queries or ORM                        ║
+║ Finding: User input directly concatenated in SQL query      ║
+║ Fix: Use parameterized queries or ORM                       ║
 ╠══════════════════════════════════════════════════════════════╣
-║ Progress: [████████████████░░░░░░░░░░░░░░] 42%               ║
+║ Progress: [████████████████░░░░░░░░░░░░░░] 42%              ║
 ╚══════════════════════════════════════════════════════════════╝
-```
-
-## Command Hierarchy
-
-```mermaid
-flowchart TB
-    Q["/ralph-quick<br/>10 iter • ~5-10 min"]
-    S["/ralph-security<br/>100 iter • ~30-60 min"]
-    U["/ralph-ultra<br/>1,000 iter • ~4-8 hours"]
-    P["/ralph-promax<br/>10,000 iter • ~2-5 days"]
-
-    Q -->|more depth| S
-    S -->|deeper| U
-    U -->|max paranoia| P
 ```
 
 ## What It Checks
 
-- **OWASP Top 10** - SQLi, XSS, IDOR, SSRF, etc.
-- **Secrets** - Hardcoded API keys, passwords, tokens
-- **Containers** - Docker security, non-root, capabilities
-- **Supply Chain** - Dependency CVEs, outdated packages
-- **Auth & JWT** - Token security, session management
-- **Infrastructure** - Ports, firewall, TLS/SSL
-- **CI/CD** - Pipeline security, secret management
+- **OWASP Top 10** — SQLi, XSS, IDOR, SSRF, etc.
+- **Secrets** — Hardcoded API keys, passwords, tokens
+- **Containers** — Docker security, non-root, capabilities
+- **Supply Chain** — Dependency CVEs, outdated packages
+- **Auth & JWT** — Token security, session management
+- **Infrastructure** — Ports, firewall, TLS/SSL
+- **CI/CD** — Pipeline security, secret management
+- **AI/RAG** — Prompt injection, context poisoning (promax)
 
 ## Parameters
 
-Each command supports customization flags:
-
 | Parameter | Description | Example |
 |-----------|-------------|---------|
-| `--iterations` | Override iteration count | `/ralph-security --iterations=50` |
-| `--focus` | Target specific area | `/ralph-ultra --focus=owasp` |
-| `--phase` | Start from specific phase | `/ralph-promax --phase=3` |
-| `--resume` | Continue from checkpoint | `/ralph-security --resume` |
+| `--iterations` | Override iteration count | `--iterations=50` |
+| `--focus` | Target specific area | `--focus=owasp` |
+| `--phase` | Start from specific phase | `--phase=3` |
+| `--resume` | Continue from checkpoint | `--resume` |
 
-**Focus areas:** `recon`, `owasp`, `auth`, `secrets`, `infra`, `code`, `supply-chain`, `compliance`, `all`
+**Note:** Parameters are interpreted by the AI agent as instructions, not parsed as formal CLI arguments.
 
 ## Checkpoint & Resume
 
-Long audits save progress automatically to `.ralph-report.md`:
+| Skill | Save Frequency |
+|-------|----------------|
+| ralph-quick | End only |
+| ralph-security | Every 10 iterations |
+| ralph-ultra | Every 50 iterations |
+| ralph-promax | Every 100 iterations |
 
-| Command | Save Frequency |
-|---------|----------------|
-| `/ralph-quick` | End only |
-| `/ralph-security` | Every 10 iterations |
-| `/ralph-ultra` | Every 50 iterations |
-| `/ralph-promax` | Every 100 iterations |
+## Reading Your Report
 
-**Report includes timestamps:**
-```
-Started:   2026-01-14 09:30:45
-Completed: 2026-01-14 10:15:22
-Duration:  44m 37s
-```
+### Triage Priority
+1. **CRITICAL + VERIFIED** — Fix immediately
+2. **HIGH + VERIFIED/LIKELY** — Fix before deployment
+3. **Any + PATTERN_MATCH** — Verify manually
+4. **NEEDS_REVIEW** — Low priority
 
-**Previous reports are preserved:**
-- When a new audit starts, existing `.ralph-report.md` is renamed to `.ralph-report-{timestamp}.md`
-- Example: `.ralph-report-2026-01-13-1430.md`
+### Common False Positives
+- Library-handled concerns (jose, bcrypt, passport)
+- Environment-gated (dev-only, not production)
+- Database-protected (UNIQUE constraints handle race conditions)
+- Pattern match only (keyword, not actual vulnerability)
 
-**If interrupted or context limit reached:**
-```bash
-# Resume from last checkpoint
-/ralph-ultra --resume
+## Compatibility
 
-# Or start specific phase
-/ralph-promax --phase=5
-```
+| Platform | Install Path | Status |
+|----------|-------------|--------|
+| Claude Code (Skills) | `~/.claude/skills/ralph-*` | ✅ Full support |
+| Claude Code (Commands) | `~/.claude/commands/` | ✅ Legacy (`archive/`) |
+| OpenClaw | `~/.openclaw/skills/ralph-*` | ✅ Full support |
+| ClawHub | `clawhub install ralph-*` | 🔜 Coming soon |
+| AgentSkills-compatible | Any skills directory | ✅ Standard format |
 
-## Auto-Detection
+## Migration from v1 (Commands)
 
-Commands automatically detect your environment on first iteration:
+If you were using the old flat `.md` files in `~/.claude/commands/`:
 
-- **Stack**: `package.json`, `requirements.txt`, `go.mod`, `pyproject.toml`
-- **Infrastructure**: `Dockerfile`, `docker-compose.yml`, Kubernetes manifests
-- **CI/CD**: GitHub Actions, GitLab CI, etc.
+1. Remove old files: `rm ~/.claude/commands/ralph-*.md`
+2. Copy new skills: `cp -r ralph-*/  ~/.claude/skills/`
+3. Everything works the same — same `/ralph-*` slash commands
 
-No configuration needed — just run the command in your project directory.
+Old files are preserved in `archive/` for reference.
 
 ## When to Use Which
 
