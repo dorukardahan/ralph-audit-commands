@@ -188,6 +188,10 @@ Old files are preserved in `archive/` for reference.
 | Security incident investigation | `/ralph-promax` |
 | Maximum paranoia mode | `/ralph-promax` |
 
+## Security
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting guidelines.
+
 ## Contributing
 
 - Found a bug? Open an issue
