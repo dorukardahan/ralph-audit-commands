@@ -8,6 +8,10 @@ metadata: { "openclaw": { "emoji": "🔍" }, "author": "dorukardahan", "version"
 
 Fast security spot-check for pre-deployment or daily security hygiene.
 
+## References
+
+- [Severity definitions](references/severity-guide.md)
+
 ## Instructions
 
 ### Execution Engine

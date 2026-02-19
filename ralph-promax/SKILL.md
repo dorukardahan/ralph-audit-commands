@@ -10,11 +10,12 @@ The most exhaustive security audit. 8 expert personas, 16 phases, leave nothing 
 
 > **Host Safety Warning:** Promax includes system-level reconnaissance (process listing, port scanning, file permissions). Runs with YOUR user's permissions. Do NOT run on production servers without understanding implications.
 
-For detailed resources loaded as needed:
-- Severity & triage: `{baseDir}/references/severity-guide.md`
-- All 8 expert personas: `{baseDir}/references/personas.md`
-- OWASP payloads & checklists: `{baseDir}/references/attack-patterns.md`
-- Full phase iteration breakdown: `{baseDir}/references/phase-details.md`
+## References
+
+- [Severity and triage guidance](references/severity-guide.md)
+- [All 8 expert personas](references/personas.md)
+- [OWASP payloads and checklists](references/attack-patterns.md)
+- [Full phase iteration breakdown](references/phase-details.md)
 
 ## Instructions
 
@@ -120,7 +121,7 @@ YOU MUST follow this loop for EVERY iteration — NO EXCEPTIONS:
 | 15 | 9,701-9,900 | Final Verification |
 | 16 | 9,901-10,000 | Report & Summary |
 
-For detailed per-phase iteration breakdowns, checklists, and attack payloads, consult `{baseDir}/references/phase-details.md` and `{baseDir}/references/attack-patterns.md`.
+For detailed per-phase iteration breakdowns, checklists, and attack payloads, consult [references/phase-details.md](references/phase-details.md) and [references/attack-patterns.md](references/attack-patterns.md).
 
 ### Auto-Detect (Iteration 1)
 
